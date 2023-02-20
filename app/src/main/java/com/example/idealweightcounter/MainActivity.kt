@@ -1,44 +1,48 @@
 package com.example.idealweightcounter
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
-import org.w3c.dom.Text
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var Nama : EditText
-    private lateinit var Tinggi : EditText
-    private lateinit var Hasil : TextView
-    private lateinit var jkLakiLaki : RadioButton
-    private lateinit var jkPerempuan : RadioButton
-    private lateinit var process : Button
-    private var tb : Int = 0
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerAdapter: RecyclerView.Adapter<*>
+    private lateinit var LinearLayoutManager: LayoutManager
+    private var bb : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Nama = findViewById(R.id.etNama)
-        Tinggi = findViewById(R.id.etTinggiBdn)
-        Hasil = findViewById(R.id.BB)
-        jkLakiLaki = findViewById(R.id.Laki2)
-        jkPerempuan = findViewById(R.id.Perempuan)
-        process = findViewById(R.id.btnHasil)
-        //
+        // variabel yang berhubungan dengan layout
+        val Nama = findViewById<EditText>(R.id.etNama)
+        val Tinggi = findViewById<EditText>(R.id.etTinggiBdn)
+        val Hasil = findViewById<TextView>(R.id.hasil)
+        val jkLakiLaki = findViewById<RadioButton>(R.id.Laki2)
+        val jkPerempuan = findViewById<RadioButton>(R.id.Perempuan)
+        val process = findViewById<Button>(R.id.btnHasil)
 
+        // Perintah pada tombol process
         process.setOnClickListener {
 
+            val nama = Nama.text.toString()
             val tinggi = Tinggi.text.toString().toInt()
+
             if (jkLakiLaki.isChecked) {
-                tb = (tinggi-100)-((tinggi-100)*0.10).toInt()
-                Hasil.setText(tb.toString() + "Kg")
+                bb = (tinggi-100)-((tinggi-100)*0.10).toInt()
+                //menampilkan hasil
+                Hasil.setText("nama : $nama \nberat badan ideal : "+ bb.toString() + "kg")
+            } else if(jkPerempuan.isChecked) {
+                bb = (tinggi-100)-((tinggi-100)*0.15).toInt()
+                Hasil.setText("nama : $nama \nberat badan ideal : "+ bb.toString() + "kg")
             } else {
-                tb = (tinggi-100)-((tinggi-100)*0.15).toInt()
-                Hasil.setText(tb.toString() + "Kg")
+                Hasil.setText("Pilih Jenis Kelamin Terlebih dahulu")
             }
         }
     }
